@@ -1,12 +1,23 @@
 import flet as ft
+from models import Produto
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+CONN = 'sqlite:///projeto2.db'
+
+engine = create_engine(CONN, echo = True)
+Session = sessionmaker(bind=engine)
+session = Session()
 
 def main(page: ft.Page): # Atribui uma página em branco do flet a uma função
     
     page.title = 'Cadastro App'
     
     def cadastrar(e):
-        print(produto.value)
-        print(preco.value)
+        novo_produto = Produto(titulo=produto.value, preco=preco.value)
+        session.add(novo_produto)
+        session.commit()
+        print('Produto salvo com sucesso!')
     
     txt_titulo = ft.Text('Título do produto: ')
     produto = ft.TextField(label='Digite o título do produto',text_align=ft.TextAlign.LEFT)

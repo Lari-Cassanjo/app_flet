@@ -6,7 +6,7 @@ CONN = 'sqlite:///projeto2.db'
 
 engine = create_engine(CONN, echo = True)
 Session = sessionmaker(bind=engine)
-Session = Session()
+session = Session()
 Base = declarative_base()
 
 class Produto(Base):
