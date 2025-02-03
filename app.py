@@ -13,10 +13,14 @@ def main(page: ft.Page): # Atribui uma página em branco do flet a uma função
     
     page.title = 'Cadastro App'
     
+    lista_produtos = ft.ListView()
+    
     def cadastrar(e):
         novo_produto = Produto(titulo=produto.value, preco=preco.value)
         session.add(novo_produto)
         session.commit()
+        lista_produtos.controls.append(ft.Text(produto.value))
+        page.update()
         print('Produto salvo com sucesso!')
     
     txt_titulo = ft.Text('Título do produto: ')
@@ -32,5 +36,14 @@ def main(page: ft.Page): # Atribui uma página em branco do flet a uma função
         preco,
         btn_produto
     )
+    
+    for p in session.query(Produto).all():
+        lista_produtos.controls.append(
+            ft.Container(
+                ft.Text(p.titulo)
+            )
+        )
+        
+    page.add(lista_produtos)
 
 ft.app(target=main) # Cria o app e define a página que vai ser aberta (chamando a função)
